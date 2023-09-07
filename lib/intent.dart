@@ -1,23 +1,17 @@
 import 'package:flutter/services.dart';
 
 class Intent {
-  Intent() {
-    this._category = [];
-    this._flag = [];
-    this._extra = {};
-    this._typeInfo = {};
-  }
-
+  Intent();
   static const MethodChannel _channel = const MethodChannel('intent');
 
-  String _action;
-  String _type;
-  String _package;
-  Uri _data;
-  List<String> _category;
-  List<int> _flag;
-  Map<String, dynamic> _extra;
-  Map<String, String> _typeInfo;
+  String? _action;
+  String? _type;
+  String? _package;
+  Uri? _data;
+  List<String> _category = [];
+  List<int> _flag = [];
+  Map<String, dynamic> _extra = {};
+  Map<String, String> _typeInfo = {};
 
   /// Adds category for this intent
   ///
@@ -35,7 +29,7 @@ class Intent {
   ///
   /// TypedExtra class holds predefined constants ( type information ),
   /// consider using those
-  putExtra(String extra, dynamic data, {String type}) {
+  putExtra(String extra, dynamic data, {String? type}) {
     this._extra[extra] = data;
     if (type != null) this._typeInfo[extra] = type;
   }
@@ -61,7 +55,7 @@ class Intent {
   ///
   /// *Now supports setting specific package name, which asks Android to
   /// resolve this Intent using that package, provided it's available*
-  Future<void> startActivity({bool createChooser: false}) {
+  Future<void> startActivity({bool createChooser = false}) {
     Map<String, dynamic> parameters = {};
 
     if (_action != null) parameters['action'] = _action;
@@ -82,7 +76,7 @@ class Intent {
   /// from intent, then this method needs to be called. Returns
   /// a future, which will be resolved if platform call gets
   /// successful, otherwise results into error.
-  Future<List<String>> startActivityForResult({bool createChooser: false}) {
+  Future<List<String>> startActivityForResult({bool createChooser = false}) {
     Map<String, dynamic> parameters = {};
 
     if (_action != null) parameters['action'] = _action;
